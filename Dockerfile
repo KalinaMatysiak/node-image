@@ -1,12 +1,13 @@
 FROM node:18-buster-slim
 
+ENV PNPM_VERSION v7.30.0
 ENV HELM_VERSION v3.10.0
 ENV KUBERNETES_VERSION v1.25.3
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \  
   ca-certificates \
-  curl \ 
+  curl \
   git \ 
   gnupg \ 
   htop \
@@ -37,16 +38,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   apt-get autoclean && \
   rm -rf /var/lib/apt/lists/*
 
-RUN curl -fsSL "https://github.com/pnpm/pnpm/releases/latest/download/pnpm-linuxstatic-x64" -o /bin/pnpm && chmod +x /bin/pnpm
-
+RUN curl -fsSL "https://github.com/pnpm/pnpm/releases/download/$PNPM_VERSION/pnpm-linuxstatic-x64" -o /bin/pnpm && chmod +x /bin/pnpm
 RUN usermod -aG docker node
-
-RUN wget https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz && \
-  tar -zxvf helm-${HELM_VERSION}-linux-amd64.tar.gz && \
-  mv linux-amd64/helm /usr/local/bin/helm && \
-  rm -rf helm-${HELM_VERSION}-linux-amd64.tar.gz linux-amd64 && \
-  curl -sSL -o /usr/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl" && \
-  chmod +x /usr/bin/kubectl
 
 USER node
 
