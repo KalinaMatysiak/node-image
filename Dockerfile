@@ -1,8 +1,8 @@
-FROM node:18-buster-slim
+FROM node:22-bullseye
 
-ENV PNPM_VERSION v7.30.0
-ENV HELM_VERSION v3.10.0
-ENV KUBERNETES_VERSION v1.25.3
+ENV PNPM_VERSION=v10.6.5
+ENV HELM_VERSION=v3.10.0
+ENV KUBERNETES_VERSION=v1.25.3
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \  
